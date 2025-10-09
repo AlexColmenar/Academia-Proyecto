@@ -79,7 +79,7 @@ public class MainMenu extends JFrame {
             // Poner la imagen escalada en el JLabel
             logo.setIcon(new ImageIcon(scaledImage));
         } else {
-            System.out.println("❌ No se encontró la imagen en /images/logoAcademia.png");
+            System.out.println("No se encontró la imagen en /images/logoAcademia.png");
         }
 
         right.add(logo, BorderLayout.CENTER);
