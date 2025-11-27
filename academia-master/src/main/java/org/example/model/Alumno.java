@@ -6,6 +6,9 @@ import java.util.List;
 @Entity
 @Table(name = "Estudiantes")
 public class Alumno {
+    // Entidad `Alumno` mapeada con JPA.
+    // Campos: id, nombre, email, carrera y lista de calificaciones.
+    // Los getters/setters son usados por JPA y la GUI.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
@@ -19,8 +22,6 @@ public class Alumno {
 
     @Column(name = "Carrera")
     private String carrera;
-
-    // Relación uno a muchos: un alumno tiene muchas calificaciones
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Calificacion> calificaciones;
 
@@ -33,7 +34,6 @@ public class Alumno {
         this.carrera = carrera;
     }
 
-    // getters y setters
     public Long getId() {
         return id;
     }

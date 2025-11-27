@@ -6,6 +6,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Calificaciones")
 public class Calificacion {
+    // Entidad `Calificacion` mapeada con JPA.
+    // Representa una nota de una materia para un `Alumno` en una fecha.
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
@@ -20,15 +23,13 @@ public class Calificacion {
     @Column(name = "Fecha")
     private LocalDate fecha;
 
-    // Relación muchos a uno: muchas calificaciones pertenecen a un alumno
     @ManyToOne
     @JoinColumn(name = "Estudiante_id")
-    private Alumno alumno; // Constructor vacío (requerido por JPA)
+    private Alumno alumno;
 
     public Calificacion() {
     }
 
-    // Constructor con parámetros
     public Calificacion(String materia, Double nota, LocalDate fecha, Alumno alumno) {
         this.materia = materia;
         this.nota = nota;
@@ -36,7 +37,6 @@ public class Calificacion {
         this.alumno = alumno;
     }
 
-    // getters y setters
     public Long getId() {
         return id;
     }

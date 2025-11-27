@@ -1,44 +1,39 @@
 package org.example.view;
 
-// Importamos las librerías necesarias para crear interfaces gráficas
-import javax.swing.*; // Para JFrame, JPanel, JTextField, JButton, JLabel, etc.
-import java.awt.*; // Para los layouts, dimensiones y alineaciones
+import javax.swing.*;
+import java.awt.*;
 
-// Clase que representa la ventana para dar de alta un alumno
 public class AltaAlumnoPanel extends JFrame {
 
-    // Campos de texto públicos para poder acceder desde otras clases (controlador)
     public JTextField txtNombre, txtEmail, txtCarrera;
-
-    // Botones públicos para poder añadirles acciones desde el controlador
     public JButton btnGuardar, btnCancelar;
 
-    // Constructor de la clase, aquí se construye toda la ventana
+    // Ventana para ingresar datos de un nuevo alumno.
+    // Contiene campos de texto para nombre/email/carrera y botones
+    // guardar/cancelar.
+
     public AltaAlumnoPanel() {
-        setTitle("Alta de Alumno"); // Título de la ventana
-        setSize(450, 320); // Tamaño de la ventana (ancho x alto)
-        setLocationRelativeTo(null); // Centrar la ventana en la pantalla
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cerrar solo esta ventana
+        setTitle("Alta de Alumno");
+        setSize(450, 320);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // --- Panel principal que contiene todos los componentes ---
-        JPanel panel = new JPanel(new GridBagLayout()); // Usamos GridBagLayout para alinear todo en filas y columnas
-        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // Margen interior de 15px alrededor
-        GridBagConstraints gbc = new GridBagConstraints(); // Objeto que controla la posición de cada componente
-        gbc.insets = new Insets(5, 5, 5, 5); // Espacio (margen) entre cada componente
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Los campos de texto se expanden horizontalmente
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // --- Fila 1: Nombre ---
         gbc.gridx = 0;
-        gbc.gridy = 0; // Columna 0, fila 0
-        gbc.weightx = 0.3; // La etiqueta ocupa un 30% del espacio horizontal
-        panel.add(new JLabel("Nombre:"), gbc); // Añadimos la etiqueta
+        gbc.gridy = 0;
+        gbc.weightx = 0.3;
+        panel.add(new JLabel("Nombre:"), gbc);
 
         gbc.gridx = 1;
-        gbc.weightx = 0.7; // La caja de texto ocupa un 70% del espacio
-        txtNombre = new JTextField(); // Creamos el campo de texto
-        panel.add(txtNombre, gbc); // Lo añadimos al panel
+        gbc.weightx = 0.7;
+        txtNombre = new JTextField();
+        panel.add(txtNombre, gbc);
 
-        // --- Fila 2: Email ---
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.3;
@@ -49,7 +44,6 @@ public class AltaAlumnoPanel extends JFrame {
         txtEmail = new JTextField();
         panel.add(txtEmail, gbc);
 
-        // --- Fila 3: Carrera ---
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.3;
@@ -60,22 +54,19 @@ public class AltaAlumnoPanel extends JFrame {
         txtCarrera = new JTextField();
         panel.add(txtCarrera, gbc);
 
-        // --- Fila 4: Botones centrados ---
         gbc.gridx = 0;
-        gbc.gridy = 3; // Columna 0, fila 3
-        gbc.gridwidth = 2; // Ocupa las 2 columnas (etiqueta + campo)
-        gbc.anchor = GridBagConstraints.CENTER; // Centrar los botones horizontalmente
-        gbc.fill = GridBagConstraints.NONE; // No expandir los botones
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
 
-        // Panel interno para los botones, con espacio entre ellos
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        btnGuardar = new JButton("Guardar"); // Botón guardar
-        btnCancelar = new JButton("Cancelar"); // Botón cancelar
-        buttons.add(btnGuardar); // Añadimos botón guardar
-        buttons.add(btnCancelar); // Añadimos botón cancelar
-        panel.add(buttons, gbc); // Añadimos el panel de botones al panel principal
+        btnGuardar = new JButton("Guardar");
+        btnCancelar = new JButton("Cancelar");
+        buttons.add(btnGuardar);
+        buttons.add(btnCancelar);
+        panel.add(buttons, gbc);
 
-        // Añadimos el panel principal a la ventana
         add(panel);
     }
 }
