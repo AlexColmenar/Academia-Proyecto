@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?> <!-- Declaración XML estándar -->
+<?xml version="1.0" encoding="UTF-8"?><!-- Declaración XML estándar -->
 
 <!-- Archivo de configuración de Maven (Project Object Model - POM) -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <!-- Versión del modelo POM que se usa (obligatorio en todos los proyectos Maven) -->
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Identificación única del proyecto -->
-    <groupId>org.example</groupId>   <!-- Grupo (normalmente el dominio al revés o paquete base) -->
-    <artifactId>academia</artifactId> <!-- Nombre del proyecto o módulo -->
-    <version>1.0-SNAPSHOT</version> <!-- Versión del proyecto (SNAPSHOT = en desarrollo) -->
+    <groupId>org.example</groupId>    <!-- Grupo (normalmente el dominio al revés o paquete base) -->
+    <artifactId>academia</artifactId>    <!-- Nombre del proyecto o módulo -->
+    <version>1.0-SNAPSHOT</version>    <!-- Versión del proyecto (SNAPSHOT = en desarrollo) -->
 
     <!-- Propiedades generales del proyecto -->
     <properties>
         <!-- Versión de Java que usará Maven para compilar -->
-        <maven.compiler.source>24</maven.compiler.source> <!-- Lenguaje fuente (Java 24) -->
-        <maven.compiler.target>24</maven.compiler.target> <!-- Versión objetivo de bytecode -->
+        <maven.compiler.source>24</maven.compiler.source>        <!-- Lenguaje fuente (Java 24) -->
+        <maven.compiler.target>24</maven.compiler.target>        <!-- Versión objetivo de bytecode -->
         <!-- Codificación de caracteres en el proyecto -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -57,12 +56,39 @@
     </dependencies>
 
     <build>
+        <finalName>academia</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <!-- Hacemos que el JAR sombreado reemplace el artefacto principal
+                                 para generar `target/academia.jar` directamente -->
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.example.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
