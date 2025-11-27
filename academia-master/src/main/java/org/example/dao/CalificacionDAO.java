@@ -1,90 +1,79 @@
 package org.example.dao;
 
-// Importamos la clase modelo Calificacion
 import org.example.model.Calificacion;
-
-// Importaciones de JPA / Jakarta Persistence
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.util.List; // Para manejar listas de calificaciones
+import java.util.List;
 
-// Clase DAO: maneja todas las operaciones de la base de datos para Calificacion
 public class CalificacionDAO {
+    // DAO para la entidad `Calificacion`. Métodos CRUD y una consulta
+    // auxiliar `buscarPorAlumno` para recuperar calificaciones de un alumno.
 
-    // Creamos una fábrica de EntityManager a partir del persistence unit definido
-    // en persistence.xml
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
-    // --- INSERTAR una calificacion ---
     public void insertar(Calificacion c) {
-        EntityManager em = emf.createEntityManager(); // Creamos un EntityManager para esta operación
+        EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin(); // Iniciamos la transacción
-            em.persist(c); // Guardamos el objeto Calificacion en la base de datos
-            em.getTransaction().commit(); // Confirmamos los cambios (commit)
+            em.getTransaction().begin();
+            em.persist(c);
+            em.getTransaction().commit();
         } finally {
             if (em.getTransaction().isActive())
-                em.getTransaction().rollback(); // Si algo falla, deshacer cambios
-            em.close(); // Cerramos el EntityManager
+                em.getTransaction().rollback();
+            em.close();
         }
     }
 
-    // --- LISTAR todas las calificaciones ---
     public List<Calificacion> listar() {
         EntityManager em = emf.createEntityManager();
         try {
-            // JPQL: consulta los objetos Calificacion en la base de datos
             return em.createQuery("SELECT c FROM Calificacion c", Calificacion.class)
-                    .getResultList(); // Devuelve una lista de Calificacion
-        } finally {
-            em.close(); // Siempre cerrar el EntityManager
-        }
-    }
-
-    // --- BUSCAR una calificacion por ID ---
-    public Calificacion buscarPorId(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(Calificacion.class, id); // Busca usando la clave primaria
+                    .getResultList();
         } finally {
             em.close();
         }
     }
 
-    // --- ACTUALIZAR una calificacion ---
+    public Calificacion buscarPorId(Long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Calificacion.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
     public void actualizar(Calificacion c) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(c); // Merge actualiza el objeto en la base de datos
+            em.merge(c);
             em.getTransaction().commit();
         } finally {
             if (em.getTransaction().isActive())
-                em.getTransaction().rollback(); // deshacer cambios si falla
+                em.getTransaction().rollback();
             em.close();
         }
     }
 
-    // --- ELIMINAR una calificacion por ID ---
     public void eliminar(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            Calificacion c = em.find(Calificacion.class, id); // Buscar objeto a eliminar
+            Calificacion c = em.find(Calificacion.class, id);
             if (c != null) {
-                em.remove(c); // Eliminar solo si existe
+                em.remove(c);
             }
-            em.getTransaction().commit(); // Confirmar eliminación
+            em.getTransaction().commit();
         } finally {
             if (em.getTransaction().isActive())
-                em.getTransaction().rollback(); // deshacer si falla
+                em.getTransaction().rollback();
             em.close();
         }
     }
 
-    // --- BUSCAR calificaciones por alumno ID ---
     public List<Calificacion> buscarPorAlumno(Long alumnoId) {
         EntityManager em = emf.createEntityManager();
         try {
