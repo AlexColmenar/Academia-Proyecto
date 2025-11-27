@@ -1,7 +1,10 @@
 package org.example.view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainMenu extends JFrame {
 
@@ -18,47 +21,43 @@ public class MainMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel root = new JPanel(new BorderLayout(10, 10));
-        root.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel root = new JPanel(new BorderLayout(12, 12));
+        root.setBorder(new EmptyBorder(18, 18, 18, 18));
+        root.setBackground(Color.WHITE);
 
-        JLabel lblTitle = new JLabel("SISTEMA DE GESTIÓN ACADÉMICA", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 28));
-        root.add(lblTitle, BorderLayout.NORTH);
+        // Cabecera
+        JLabel lblTitle = new JLabel("ACADEMIA", SwingConstants.LEFT);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        lblTitle.setForeground(new Color(30, 60, 120));
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBackground(Color.WHITE);
+        header.add(lblTitle, BorderLayout.WEST);
+        root.add(header, BorderLayout.NORTH);
 
         JPanel center = new JPanel(new GridLayout(1, 2, 20, 20));
+        center.setBackground(Color.WHITE);
 
         JPanel left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        left.setBorder(new EmptyBorder(10, 10, 10, 10));
+        left.setBackground(Color.WHITE);
 
-        btnAlta = new JButton("Alta de Alumnos");
-        btnAlta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-
-        btnConsulta = new JButton("Consulta, edición y baja");
-        btnConsulta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-
-        btnSalir = new JButton("Salir");
-        btnSalir.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btnAlta = createStyledButton("Alta de Alumnos", new Color(76, 145, 255));
+        btnConsulta = createStyledButton("Consulta, edición y baja", new Color(36, 163, 154));
+        btnSalir = createStyledButton("Salir", new Color(220, 75, 60));
 
         left.add(btnAlta);
-        left.add(Box.createVerticalStrut(10));
+        left.add(Box.createVerticalStrut(12));
         left.add(btnConsulta);
-        left.add(Box.createVerticalStrut(10));
+        left.add(Box.createVerticalStrut(12));
         left.add(btnSalir);
 
         JPanel right = new JPanel(new BorderLayout());
-        JLabel logo = new JLabel();
-        logo.setHorizontalAlignment(SwingConstants.CENTER);
-        java.net.URL imgURL = getClass().getResource("/images/logoAcademia.png");
-        if (imgURL != null) {
-            ImageIcon icon = new ImageIcon(imgURL);
-            Image scaledImage = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
-            logo.setIcon(new ImageIcon(scaledImage));
-        } else {
-            System.out.println("No se encontró la imagen en /images/logoAcademia.png");
-        }
+        right.setBackground(Color.WHITE);
 
-        right.add(logo, BorderLayout.CENTER);
+        // Cargar la foto de la academia en panel con bordes redondeados
+        ImagenVista panelImagen = new ImagenVista("/images/academia.png", 420, 340, 18);
+        right.add(panelImagen, BorderLayout.CENTER);
 
         center.add(left);
         center.add(right);
@@ -66,5 +65,27 @@ public class MainMenu extends JFrame {
         root.add(center, BorderLayout.CENTER);
 
         add(root);
+    }
+
+    private JButton createStyledButton(String text, Color bg) {
+        JButton b = new JButton(text);
+        b.setBackground(bg);
+        b.setForeground(Color.WHITE);
+        b.setFocusPainted(false);
+        b.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        b.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
+        b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        b.setPreferredSize(new Dimension(220, 44));
+        b.setMaximumSize(new Dimension(Integer.MAX_VALUE, 48));
+        b.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                b.setBackground(bg.darker());
+            }
+
+            public void mouseExited(MouseEvent e) {
+                b.setBackground(bg);
+            }
+        });
+        return b;
     }
 }
