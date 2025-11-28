@@ -161,7 +161,7 @@ public class AlumnoController {
     }
 
     private void cargarTabla() {
-        // Recupera la lista desde DAO y monta el modelo de la tabla (solo lectura)
+        // Recupera la lista desde DAO y monta el modelo de la tabla
         List<Alumno> lista = dao.listar();
 
         DefaultTableModel model = new DefaultTableModel(new Object[] { "ID", "Nombre", "Email", "Carrera" }, 0) {

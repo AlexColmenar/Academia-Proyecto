@@ -1,30 +1,34 @@
-# Sistema de Gestión Académica
+# Academia — Guía muy breve
 
-Aplicación Java (Hibernate/JPA + Swing) para gestionar alumnos y calificaciones. Implementa el patrón MVC y persiste datos en una base de datos relacional.
+- Ejecutar: `mvn -DskipTests package` && `java -jar target/academia.jar`
 
-**Estructura principal**
-- `org.example.model`: entidades (`Alumno`, `Calificacion`)
-- `org.example.dao`: acceso a datos (DAOs)
-- `org.example.view`: interfaces Swing
-- `org.example.controller`: lógica de control
+## Ejecutar
+- Compilar: `mvn -DskipTests package`
+- Ejecutar: `java -jar target/academia.jar`
 
-**Requisitos**
-- Java 24 o superior
-- Maven 3.8+
-- MySQL/MariaDB o similar (driver JDBC)
+## Base de datos
+- Configuración JPA/Hibernate en `src/main/resources/META-INF/persistence.xml`.
+- Si tu BD tiene la columna antigua de texto `Calificaciones.Materia`, ejecuta el script de migración antes de usar la nueva funcionalidad:
+  - `db/migration/001_add_materias_and_migrate.sql`
+- Haz backup antes de tocar la BD:
+  - `mysqldump -u USUARIO -p -h HOST BASE_DATOS > backup_academia.sql`
 
-**Configuración**
-Edita `src/main/resources/META-INF/persistence.xml` y ajusta `jakarta.persistence.jdbc.url`, `jakarta.persistence.jdbc.user` y `jakarta.persistence.jdbc.password`.
+## Entidades principales
+- `Alumno`: id, nombre, email, carrera, lista `Calificacion`.
+- `Materia`: id, nombre, descripcion.
+- `Calificacion`: id, `Alumno` (ManyToOne), `Materia` (ManyToOne), nota, fecha.
 
-**Compilar y ejecutar**
-```bash
-mvn clean compile
-mvn exec:java -Dexec.mainClass="org.example.Main"
-# Para empaquetar: mvn clean package
-```
+## Vistas / componentes clave
+- `MainMenu` — ventana principal con foto (`ImagenVista`) y botones.
+- `AltaAlumnoPanel`, `ConsultaAlumnoPanel` — CRUD alumnos.
+- `CalificacionPanel` — lista de calificaciones por alumno; añadir/editar usa `JComboBox` de materias.
+- `MateriaPanel` — listado y gestión básica de materias.
 
-**Uso rápido**
-- Registrar y gestionar alumnos
+ Entidades: `Alumno`, `Materia`, `Calificacion` (Alumno 1→N Calificacion; Materia 1→N Calificacion).
+ UI: `MainMenu` (foto), CRUD alumnos, `CalificacionPanel` (selector de materias), `MateriaPanel` (gestión de materias).
+ BD: migración en `db/migration/001_add_materias_and_migrate.sql` — haz backup antes.
+ Comportamientos clave: no eliminar `Materia` con calificaciones; crear materias inline desde el diálogo de calificaciones.
+
 - Añadir y gestionar calificaciones por alumno
 - Consultar y editar registros desde la interfaz
 - Generar reportes y estadísticas desde la aplicación

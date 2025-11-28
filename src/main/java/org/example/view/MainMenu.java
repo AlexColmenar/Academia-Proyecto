@@ -5,11 +5,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import org.example.controller.MateriaController;
 
 public class MainMenu extends JFrame {
 
     public JButton btnAlta;
     public JButton btnConsulta;
+    public JButton btnMaterias;
     public JButton btnSalir;
 
     // Ventana principal del sistema con accesos a las operaciones
@@ -44,11 +46,14 @@ public class MainMenu extends JFrame {
 
         btnAlta = createStyledButton("Alta de Alumnos", new Color(76, 145, 255));
         btnConsulta = createStyledButton("Consulta, edición y baja", new Color(36, 163, 154));
+        btnMaterias = createStyledButton("Materias", new Color(112, 96, 201));
         btnSalir = createStyledButton("Salir", new Color(220, 75, 60));
 
         left.add(btnAlta);
         left.add(Box.createVerticalStrut(12));
         left.add(btnConsulta);
+        left.add(Box.createVerticalStrut(12));
+        left.add(btnMaterias);
         left.add(Box.createVerticalStrut(12));
         left.add(btnSalir);
 
@@ -87,5 +92,13 @@ public class MainMenu extends JFrame {
             }
         });
         return b;
+    }
+
+    // Exponer un método para conectar listeners desde el controlador principal
+    public void attachMateriaAction() {
+        btnMaterias.addActionListener(ev -> {
+            MateriaController mc = new MateriaController();
+            mc.open();
+        });
     }
 }

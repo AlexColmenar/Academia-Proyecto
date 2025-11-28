@@ -1,14 +1,13 @@
 package org.example.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Estudiantes")
 public class Alumno {
-    // Entidad `Alumno` mapeada con JPA.
     // Campos: id, nombre, email, carrera y lista de calificaciones.
-    // Los getters/setters son usados por JPA y la GUI.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
@@ -22,8 +21,8 @@ public class Alumno {
 
     @Column(name = "Carrera")
     private String carrera;
-    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Calificacion> calificaciones;
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Calificacion> calificaciones = new ArrayList<>();
 
     public Alumno() {
     }
@@ -72,5 +71,20 @@ public class Alumno {
 
     public void setCalificaciones(List<Calificacion> calificaciones) {
         this.calificaciones = calificaciones;
+    }
+
+    // Helper methods to maintain both sides of the relationship
+    public void addCalificacion(Calificacion c) {
+        if (c == null)
+            return;
+        calificaciones.add(c);
+        c.setAlumno(this);
+    }
+
+    public void removeCalificacion(Calificacion c) {
+        if (c == null)
+            return;
+        calificaciones.remove(c);
+        c.setAlumno(null);
     }
 }

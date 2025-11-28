@@ -9,9 +9,7 @@ import java.util.List;
 
 public class AlumnoDAO {
     // DAO para la entidad `Alumno`. Proporciona métodos CRUD básicos
-    // usando JPA (`EntityManagerFactory` compartido).
-    // cada método abre/ cierra su propio `EntityManager` y gestiona
-    // transacciones de forma sencilla (commit/rollback).
+    // cada método abre/ cierra su propio `EntityManager`
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 

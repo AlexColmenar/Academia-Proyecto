@@ -6,7 +6,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Calificaciones")
 public class Calificacion {
-    // Entidad `Calificacion` mapeada con JPA.
     // Representa una nota de una materia para un `Alumno` en una fecha.
 
     @Id
@@ -14,8 +13,12 @@ public class Calificacion {
     @Column(name = "Id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "Materia_id")
+    private Materia materia;
+
     @Column(name = "Materia")
-    private String materia;
+    private String materiaNombre;
 
     @Column(name = "Nota")
     private Double nota;
@@ -30,11 +33,17 @@ public class Calificacion {
     public Calificacion() {
     }
 
-    public Calificacion(String materia, Double nota, LocalDate fecha, Alumno alumno) {
+    public Calificacion(Materia materia, Double nota, LocalDate fecha, Alumno alumno) {
         this.materia = materia;
         this.nota = nota;
         this.fecha = fecha;
         this.alumno = alumno;
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void syncMateriaNombre() {
+        this.materiaNombre = (this.materia != null) ? this.materia.getNombre() : null;
     }
 
     public Long getId() {
@@ -45,11 +54,11 @@ public class Calificacion {
         this.id = id;
     }
 
-    public String getMateria() {
+    public Materia getMateria() {
         return materia;
     }
 
-    public void setMateria(String materia) {
+    public void setMateria(Materia materia) {
         this.materia = materia;
     }
 
@@ -75,5 +84,13 @@ public class Calificacion {
 
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
+    }
+
+    public String getMateriaNombre() {
+        return materiaNombre;
+    }
+
+    public void setMateriaNombre(String materiaNombre) {
+        this.materiaNombre = materiaNombre;
     }
 }

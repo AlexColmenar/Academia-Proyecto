@@ -8,8 +8,7 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public class CalificacionDAO {
-    // DAO para la entidad `Calificacion`. Métodos CRUD y una consulta
-    // auxiliar `buscarPorAlumno` para recuperar calificaciones de un alumno.
+    // DAO para la entidad `Calificacion`. Métodos CRUD y una consulta auxiliar
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("academiaPU");
 
@@ -79,6 +78,17 @@ public class CalificacionDAO {
         try {
             return em.createQuery("SELECT c FROM Calificacion c WHERE c.alumno.id = :alumnoId", Calificacion.class)
                     .setParameter("alumnoId", alumnoId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Calificacion> buscarPorMateria(Long materiaId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT c FROM Calificacion c WHERE c.materia.id = :mid", Calificacion.class)
+                    .setParameter("mid", materiaId)
                     .getResultList();
         } finally {
             em.close();

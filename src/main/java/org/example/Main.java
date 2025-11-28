@@ -7,10 +7,9 @@ import javax.swing.*;
 
 public class Main {
     // Entrada de la aplicación.
-    // Crea la interfaz principal (`MainMenu`) y registra el `AlumnoController`.
+    // Crea la interfaz principal y registra el `AlumnoController`.
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // Intentar aplicar un aspecto moderno (Nimbus si está disponible)
             try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -22,7 +21,6 @@ public class Main {
             }
 
             MainMenu menu = new MainMenu();
-            // Intentar cargar un icono simple desde resources (si existe)
             try {
                 java.net.URL iconUrl = Main.class.getResource("/images/academia_icon.png");
                 if (iconUrl != null) {
@@ -31,6 +29,8 @@ public class Main {
             } catch (Exception ignored) {
             }
             new AlumnoController(menu);
+            // Conectar acciones adicionales
+            menu.attachMateriaAction();
             menu.setVisible(true);
         });
     }
